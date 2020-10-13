@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid Fundamentals!</title>
+</head>
+
+<body>
+    <img src="./selector-switch-2-hi.png" alt="">
+</body>
+
+<style>
+    img {
+        transform: rotate(90deg);
+    }
+
+</style>
+<script>
+const selectorswitch = document.querySelector('img');
+
+let x = 90; 
+setInterval(function () {
+ x += 1; 
+ selectorswitch.style.transform = `rotate(${x}deg)`;
+}, 1000);
+
+
+
+
+</script>
+
+</html>

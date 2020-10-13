@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid Fundamentals!</title>
+</head>
+
+<body>
+<div class="controlpanelcase">
+    <div class="controlpanel">
+        <div class="panelRow panelRow1">
+                <div class="button button1">
+                        <div class="buttonlabel">EJECTOR RETRACT</div>
+                        <div class="buttonproper momentary ejectorRetract"></div>
+                    </div>
+                    <div class="button button2">
+                        <div class="buttonlabel">EJECTOR EJECT</div>
+                        <div class="buttonproper momentary ejectorEject"></div>
+                    </div>
+                    <div class="button button3">
+                        <div class="buttonlabel">TAILGATE LOCK</div>
+                        <div class="buttonproper momentary tailgateLock"></div>
+                    </div>
+                    <div class="button button4">
+                        <div class="buttonlabel">TAILGATE CLOSE</div>
+                        <div class="buttonproper momentary tailgateClose"></div>
+                    </div>
+                    <div class="button button5">
+                        <div class="buttonlabel">TAILGATE OPEN</div>
+                        <div class="buttonproper momentary tailgateOpen"></div>
+                    </div>
+                    <div class="button button6">
+                        <div class="buttonlabel">UNLOAD POWER</div>
+                        <div class="buttonproper maintained unloadPowerButton"></div>
+                    </div>
+            
+                    </div>
+        <div class="panelRow panelRow2">
+            <div>
+                <p>PACK</p>
+                <p>AUTO <span></span>MANUAL</p>
+                <img class = "autopackSwitch" src="selector-switch-2-hi.png" alt="">
+            </div>
+            <div>
+                <p>SYSTEM ON</p>
+                <img class="killswitch" src="estop-round.png" alt="">
+            </div>
+            <div >
+                <p>TAILGATE OPEN ALARM</p>
+                <div class="tailgateopenalarm alarm"></div>
+            </div>
+            <div>
+                <p>LIFT OUT ALARM</p>
+                <div class="alarm liftoutalarm"></div>
+            </div>
+                    
+                 
+        </div>
+
+        <div class="panelRow panelRow3">
+                
+                
+                <div class="indicatorLight indicatorLight1">
+                    <div class="indicatorLabel">PACKER RETRACTING</div>
+                    <div class="light retractingIndicatorLight"></div>
+                </div>
+                <div class="indicatorLight indicatorLight2">
+                    <div class="indicatorLabel">PACKER EXTENDING</div>
+                    <div class="light extendingIndicatorLight"></div>
+                </div>
+                <div class="button button13">
+                    <div class="buttonlabel">PACKER RETRACT</div>
+                    <div class="buttonproper momentary packerRetract"></div>
+                </div>
+                <div class="indicatorLight indicatorLight3">
+                    <div class="indicatorLabel">SYSTEM ON INDICATOR</div>
+                    <div class="light systemIndicatorLight"></div>
+                </div>
+                <div class="button button15">
+                    <div class="buttonlabel">WORK LIGHTS</div>
+                    <div class="buttonproper maintained workLightsIndicator"></div>
+                </div>
+                <div class="button button16">
+                    <div class="buttonlabel">STROBE LIGHT</div>
+                    <div class="buttonproper maintained strobeLightsIndicator"></div>
+                </div>
+    
+        </div>
+        
+    </div>
+</div>
+
+
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.controlpanelcase {
+    width: 600px;
+    height: 80%;
+    border: 3px solid black;
+    border-radius: 30px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 20px;
+    
+}
+
+.controlpanel {
+    width: 85%;
+    height: 60%;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.panelRow {
+    flex: 1;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding-bottom: 15px;
+
+}
+
+.button, .indicatorLight {
+    width: 17%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.buttonlabel, .indicatorLabel {
+    font-size: 12px;
+    text-align: center; 
+    margin-bottom: 5px;
+}
+
+.buttonproper {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid black;
+    box-shadow:
+                inset 0 0 0 0.1em white;
+    background: red;    
+}
+
+
+.ejectorRetract, .tailgateLock, .tailgateClose {
+    background: black;
+}
+
+.ejectorEject, .tailgateOpen {
+    background: green;
+}
+
+
+
+.light {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0.1em white;
+    background: red;    
+}
+
+.extendingIndicatorLight {
+    background: yellow;
+}
+
+
+.autopackSwitch>p {
+    margin: 0;
+}
+
+
+.autopackSwitch {
+    width: 60px;
+    height: 60px;
+    border: 2px solid black;
+    border-radius: 50%;
+    transition: all 0.5s; 
+    transition-timing-function:cubic-bezier(0.04, 0.59, 1, 0.09);
+    
+}
+
+.panelRow2 {
+    padding-bottom: 10px;
+}
+
+.panelRow2> * {
+    border: 2px solid black;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.killswitch {
+    width: 85px;
+    height: 85px;
+    transform: scale(0.9);
+    
+}
+
+p {
+    text-align: center;
+    font-size: 0.8em;
+}
+
+.alarm{
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background: green;
+
+}
+
+.pressed {
+    box-shadow: inset 0 0 0 0.4em white;
+}
+
+.empowered {
+    box-shadow: 0 0 15px 0.4em #FF9933,inset 0 0 0 0.1em #FF9933; 
+    border: 1px solid #FF9933;
+}
+
+.illumined {
+    box-shadow: 0 0 15px 0.4em #FF9933;
+
+}
+
+
+</style>
+
+<script>
+//GLOBAL VARIABLES
+let systemPower = false; 
+let unloadPower = false; 
+
+const killswitch = document.querySelector('.killswitch');
+const unloadPowerButton = document.querySelector('.unloadPowerButton');
+const maintainedbutton =  document.querySelectorAll('.maintained');
+const systemIndicatorLight = document.querySelector('.indicatorLight3>.light');
+const momentarybutton = document.querySelectorAll('.momentary');
+const packerRetractingLight = document.querySelector('.retractingIndicatorLight');
+const packerExtendingLight = document.querySelector('.ejectingIndicatorLight');
+
+
+//KILLSWITCH CODE
+
+function systemPowerUnpower() {
+    if (systemPower) {
+        this.style.transform = `scale(0.9)`;
+        setTimeout(() => this.style.transform = `scale(1)`, 100);
+        systemIndicatorLight.classList.remove('illumined');
+        unloadPowerButton.classList.remove('empowered');
+        systemPower = false;
+        // unloadPowerUnPower();
+
+    } else {
+        this.style.transform = `scale(0.9)`;
+        setTimeout(() => this.style.transform = `scale(0.95)`, 100);
+        systemIndicatorLight.classList.add('illumined');
+        if(unloadPowerButton.className.includes('pressed')) {
+            unloadPowerButton.classList.add('empowered');
+        };
+        systemPower = true;
+    }
+}
+
+function unloadPowerUnPower () {
+
+}
+
+
+
+killswitch.addEventListener('click', systemPowerUnpower);
+
+maintainedbutton.forEach((bttn) => bttn.addEventListener('click', () => bttn.classList.toggle('pressed')));
+
+momentarybutton.forEach((bttn) => {
+    bttn.addEventListener('mousedown', () => {
+        bttn.classList.toggle('pressed');
+        if(bttn.parentElement.className == 'button button13' && systemPower) {
+            packerRetractingLight.classList.add('illumined');
+        }
+    });
+});
+
+
+momentarybutton.forEach((bttn) => {
+    bttn.addEventListener('mouseup', () => {
+        bttn.classList.remove('pressed')
+        if(bttn.parentElement.className == 'button button13') {
+            packerRetractingLight.classList.remove('empowered');
+        }
+
+    })
+        
+})
+
+
+
+
+
+
+   
+
+
+
+//AUTOPACK SWITCH
+let manual = true; 
+
+const autopackswitch = document.querySelector('.autopackSwitch');
+
+autopackswitch.style.transform = `rotate(90deg)`;
+
+function packerLights() {
+    if(packerExtendingLight.className.includes('empowered')) {
+        packerRetractingLight.classList.add('empowered');
+        packerExtendingLight.classList.remove('empowered');
+    } else {
+        packerExtendingLight.classList.add('empowered');
+        packerRetractingLight.classList.remove('empowered');
+    } 
+}
+
+let autoPackLights; 
+
+
+autopackswitch.addEventListener('click', function(){
+    setTimeout(() => console.log('turning the switch'), 100)
+    if(manual) {
+        autopackswitch.style.transform = `rotate(0deg)`;
+       
+        if(systemPower) {
+            autoPackLights = setInterval(packerLights, 500);
+        }
+        manual = false
+        console.log(autoPackLights);
+        console.log(autoPackLights-1);
+
+    } else {
+        autopackswitch.style.transform = `rotate(90deg)`;
+        console.log(autoPackLights);
+        clearInterval((autoPackLights));
+        packerExtendingLight.classList.remove('empowered');
+        packerRetractingLight.classList.remove('empowered');
+
+        manual = true;
+    }
+
+
+
+})
+
+
+
+
+//UNLOAD POWER BUTTON
+
+unloadPowerButton.addEventListener('click', function() {
+   if(systemPower == true) {
+       console.log('turning on light')
+       unloadPowerButton.classList.toggle('empowered')
+        if(unloadPower == false) {
+            unloadPower = true;
+        } else {
+            unloadPower = false;
+        }
+    } else {
+        return
+    }
+});
+
+
+//WORK LIGHTS BUTTON
+const workLights = document.querySelector('.button15>.buttonproper');
+
+workLights.addEventListener('click', () => workLights.classList.toggle('empowered'));
+
+//STROBE LIGHT BUTTON
+const strobeLights = document.querySelector('.button16>.buttonproper');
+
+strobeLights.addEventListener('click', () => strobeLights.classList.toggle('empowered'));
+
+// unloadPowerButton.addEventListener('mousedown', function () {
+//     if(unloadPower) {
+//         unloadPowerButton.style = `border: border: 1px solid black;
+//                                     box-shadow:
+//                                     inset 0 0 0 0.1em white;`
+//         unloadPower = false;
+//     } else {
+//         unloadPowerButton.style = `box-shadow: 0 0 15px 0.4em #FF9933,inset 0 0 0 0.1em #FF9933; 
+//                                         border: 1px solid #FF9933;`
+//         unloadPower = true;
+//     }
+// })
+
+//TAILGATE OPEN BUTTON
+// const tailgateOpenButton = document.querySelector('.button6>.buttonproper');
+// tailgateOpenButton.addEventListener('mousedown', () => tailgateOpenButton.classList.toggle('');
+
+//     }
+// })
+
+</script>
+</body>
+
+</html>
