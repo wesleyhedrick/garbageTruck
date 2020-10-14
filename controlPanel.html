@@ -41,7 +41,7 @@
             <div>
                 <p>PACK</p>
                 <p>AUTO <span></span>MANUAL</p>
-                <img class = "autopackSwitch" src="selector-switch-2-hi.png" alt="">
+                <img class = "autopackSwitch manual" src="selector-switch-2-hi.png" alt="">
             </div>
             <div>
                 <p>SYSTEM ON</p>
@@ -49,11 +49,12 @@
             </div>
             <div >
                 <p>TAILGATE OPEN ALARM</p>
-                <div class="tailgateopenalarm alarm"></div>
+                <audio class="tailgateopenalarm alarm" src=""></audio>
+                
             </div>
             <div>
                 <p>LIFT OUT ALARM</p>
-                <div class="alarm liftoutalarm"></div>
+                <audio class="alarm liftoutalarm" src=""></audio>
             </div>
                     
                  
@@ -244,15 +245,20 @@ p {
     box-shadow: inset 0 0 0 0.4em white;
 }
 
-.empowered {
+.illumined {
     box-shadow: 0 0 15px 0.4em #FF9933,inset 0 0 0 0.1em #FF9933; 
     border: 1px solid #FF9933;
 }
 
-.illumined {
-    box-shadow: 0 0 15px 0.4em #FF9933;
-
+.illuminedButton {
+    box-shadow: 0 0 15px 0.4em #FF9933, inset 0 0 0 0.4em #FF9933; 
+    border: 1px solid #FF9933;
 }
+
+.manual {
+    transform: rotate(90deg);
+}
+
 
 
 </style>
@@ -261,47 +267,76 @@ p {
 //GLOBAL VARIABLES
 let systemPower = false; 
 let unloadPower = false; 
+let manual = true; 
 
 const killswitch = document.querySelector('.killswitch');
 const unloadPowerButton = document.querySelector('.unloadPowerButton');
+const autopackswitch = document.querySelector('.autopackSwitch');
 const maintainedbutton =  document.querySelectorAll('.maintained');
-const systemIndicatorLight = document.querySelector('.indicatorLight3>.light');
 const momentarybutton = document.querySelectorAll('.momentary');
+const systemIndicatorLight = document.querySelector('.systemIndicatorLight');
 const packerRetractingLight = document.querySelector('.retractingIndicatorLight');
-const packerExtendingLight = document.querySelector('.ejectingIndicatorLight');
+const packerExtendingLight = document.querySelector('.extendingIndicatorLight');
+const workLights = document.querySelector('.workLightsIndicator');
+const strobeLights = document.querySelector('.strobeLightsIndicator');
 
 
 //KILLSWITCH CODE
 
 function systemPowerUnpower() {
+   console.log(systemPower);
     if (systemPower) {
-        this.style.transform = `scale(0.9)`;
-        setTimeout(() => this.style.transform = `scale(1)`, 100);
+        this.style.transform = `scale(0.85)`;
+        setTimeout(() => this.style.transform = `scale(0.9)`, 100);
         systemIndicatorLight.classList.remove('illumined');
-        unloadPowerButton.classList.remove('empowered');
         systemPower = false;
-        // unloadPowerUnPower();
+        unloadPowerUnpowerPassively(); 
+        autoPack();
 
     } else {
-        this.style.transform = `scale(0.9)`;
-        setTimeout(() => this.style.transform = `scale(0.95)`, 100);
+        this.style.transform = `rotate(20deg) scale(0.85)`;
+        setTimeout(() => this.style.transform = `scale(1)`, 100);
         systemIndicatorLight.classList.add('illumined');
-        if(unloadPowerButton.className.includes('pressed')) {
-            unloadPowerButton.classList.add('empowered');
-        };
         systemPower = true;
+        unloadPowerUnpowerPassively();
+        autoPack();
     }
 }
 
-function unloadPowerUnPower () {
+
+
+function unloadPowerUnpowerPassively() {
+    console.log('running unloadPowerUnpower function')
+    //check if system power is on an unloadPowerButton is pressed. If both are true, add illumined.
+    if(unloadPowerButton.className.includes('pressed') && systemPower){
+        unloadPowerButton.classList.add('illuminedButton');
+    } else {
+        unloadPowerButton.classList.remove('illuminedButton');
+    
+    }
 
 }
 
+function unloadPowerUnpowerActively() {
+    this.classList.toggle('pressed');
+    console.log(this.className.includes('pressed'))
+
+    if(systemPower && this.className.includes('pressed')) {
+        this.classList.add('illuminedButton');
+        unloadPower = true;
+        console.log('system power is on and the button is pressed');
+    } else {
+        this.classList.remove('illuminedButton');
+        unloadPower = false;
+    }
+}
 
 
+unloadPowerButton.addEventListener('click', unloadPowerUnpowerActively);
 killswitch.addEventListener('click', systemPowerUnpower);
 
-maintainedbutton.forEach((bttn) => bttn.addEventListener('click', () => bttn.classList.toggle('pressed')));
+
+// maintainedbutton.forEach((bttn) => bttn.addEventListener('click', () => bttn.classList.toggle('pressed')));
 
 momentarybutton.forEach((bttn) => {
     bttn.addEventListener('mousedown', () => {
@@ -319,115 +354,54 @@ momentarybutton.forEach((bttn) => {
         if(bttn.parentElement.className == 'button button13') {
             packerRetractingLight.classList.remove('empowered');
         }
-
-    })
-        
+    }) 
 })
-
-
-
-
-
-
-   
-
 
 
 //AUTOPACK SWITCH
-let manual = true; 
-
-const autopackswitch = document.querySelector('.autopackSwitch');
-
-autopackswitch.style.transform = `rotate(90deg)`;
 
 function packerLights() {
-    if(packerExtendingLight.className.includes('empowered')) {
-        packerRetractingLight.classList.add('empowered');
-        packerExtendingLight.classList.remove('empowered');
+    if(packerExtendingLight.className.includes('illumined')) {
+        packerRetractingLight.classList.add('illumined');
+        packerExtendingLight.classList.remove('illumined');
     } else {
-        packerExtendingLight.classList.add('empowered');
-        packerRetractingLight.classList.remove('empowered');
+        packerExtendingLight.classList.add('illumined');
+        packerRetractingLight.classList.remove('illumined');
     } 
 }
 
-let autoPackLights; 
+let packerLightsInterval; 
 
-
-autopackswitch.addEventListener('click', function(){
-    setTimeout(() => console.log('turning the switch'), 100)
-    if(manual) {
-        autopackswitch.style.transform = `rotate(0deg)`;
-       
-        if(systemPower) {
-            autoPackLights = setInterval(packerLights, 500);
-        }
-        manual = false
-        console.log(autoPackLights);
-        console.log(autoPackLights-1);
-
-    } else {
-        autopackswitch.style.transform = `rotate(90deg)`;
-        console.log(autoPackLights);
-        clearInterval((autoPackLights));
-        packerExtendingLight.classList.remove('empowered');
-        packerRetractingLight.classList.remove('empowered');
-
-        manual = true;
-    }
-
-
-
-})
-
-
-
-
-//UNLOAD POWER BUTTON
-
-unloadPowerButton.addEventListener('click', function() {
-   if(systemPower == true) {
-       console.log('turning on light')
-       unloadPowerButton.classList.toggle('empowered')
-        if(unloadPower == false) {
-            unloadPower = true;
-        } else {
-            unloadPower = false;
-        }
-    } else {
+function autoPack() {
+    console.log('turning the dial');
+    console.log(this.className)
+    if(autopackswitch.className.includes('manual')) {
+        clearInterval(packerLightsInterval)
+        packerExtendingLight.classList.remove('illumined');
+        packerRetractingLight.classList.remove('illumined');
         return
+    } else {
+        if(systemPower) {
+            packerLightsInterval = setInterval(packerLights, 500)
+        } else {
+            console.log('turning of packer lights')
+            clearInterval(packerLightsInterval)
+            packerExtendingLight.classList.remove('illumined');
+            packerRetractingLight.classList.remove('illumined');
+            
+        }
     }
-});
+}
 
+autopackswitch.addEventListener('click', function() {this.classList.toggle('manual')});
+autopackswitch.addEventListener('click', autoPack)
 
 //WORK LIGHTS BUTTON
-const workLights = document.querySelector('.button15>.buttonproper');
-
-workLights.addEventListener('click', () => workLights.classList.toggle('empowered'));
+workLights.addEventListener('click', () => workLights.classList.toggle('illuminedButton'));
 
 //STROBE LIGHT BUTTON
-const strobeLights = document.querySelector('.button16>.buttonproper');
+strobeLights.addEventListener('click', () => strobeLights.classList.toggle('illuminedButton'));
 
-strobeLights.addEventListener('click', () => strobeLights.classList.toggle('empowered'));
-
-// unloadPowerButton.addEventListener('mousedown', function () {
-//     if(unloadPower) {
-//         unloadPowerButton.style = `border: border: 1px solid black;
-//                                     box-shadow:
-//                                     inset 0 0 0 0.1em white;`
-//         unloadPower = false;
-//     } else {
-//         unloadPowerButton.style = `box-shadow: 0 0 15px 0.4em #FF9933,inset 0 0 0 0.1em #FF9933; 
-//                                         border: 1px solid #FF9933;`
-//         unloadPower = true;
-//     }
-// })
-
-//TAILGATE OPEN BUTTON
-// const tailgateOpenButton = document.querySelector('.button6>.buttonproper');
-// tailgateOpenButton.addEventListener('mousedown', () => tailgateOpenButton.classList.toggle('');
-
-//     }
-// })
 
 </script>
 </body>
